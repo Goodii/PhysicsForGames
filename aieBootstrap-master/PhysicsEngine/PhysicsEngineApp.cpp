@@ -26,19 +26,19 @@ bool PhysicsEngineApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
-	m_physicsScene->setGravity(glm::vec2(0, 0));
+	m_physicsScene->setGravity(glm::vec2(0, -10.f));
 	m_physicsScene->setTimeStep(0.01f);
 
-	Sphere* ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 25.f, 4.f, glm::vec4(1, 0, 0, 1));
-	Sphere* ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 11.f, 4.f, glm::vec4(0, 1, 0, 1));
+	Sphere* ball1 = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 5.f, 4.f, glm::vec4(1, 0, 0, 1));
+	Sphere* ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 5.f, 4.f, glm::vec4(0, 1, 0, 1));
 
 	m_physicsScene->addActor(ball1);
 	m_physicsScene->addActor(ball2);
 
 	//ball1->applyForceToActor(ball2, glm::vec2(2, 0));
 
-	ball1->applyForce(glm::vec2(30, 0));
-	ball2->applyForce(glm::vec2(-15, 0));
+	ball1->applyForce(glm::vec2(30, 150));
+	ball2->applyForce(glm::vec2(-31, 148));
 
 	return true;
 }

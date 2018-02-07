@@ -12,7 +12,7 @@ public:
 	~RigidBody();
 
 	virtual void fixedUpdate(glm::vec2 gravity, float timeStep);
-	virtual void debug();
+	virtual void debug() override { };
 	void applyForce(glm::vec2 force);
 	void applyForceToActor(RigidBody* actor2, glm::vec2 force);
 
