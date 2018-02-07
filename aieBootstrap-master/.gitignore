@@ -14,7 +14,8 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+x64/*
+!x64/glfw3.lib
 x86/
 bld/
 [Oo]bj/
