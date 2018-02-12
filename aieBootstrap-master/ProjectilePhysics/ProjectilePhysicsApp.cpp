@@ -5,6 +5,11 @@
 #include <Gizmos.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include "Sphere.h"
+#include "Plane.h"
+#include <imgui.h>
+
+#define M_PI 3.141592654
 
 ProjectilePhysicsApp::ProjectilePhysicsApp() {
 
@@ -22,13 +27,20 @@ bool ProjectilePhysicsApp::startup() {
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
-
+	
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->setTimeStep(0.01f);
+	m_physicsScene->setGravity(glm::vec2(0, -100));
 
-	setupContinuousDemo(glm::vec2(-40, 0), 40.f, 45.f, 0.f);
+	float radius = 1.f;
+	float speed = 25;
+	glm::vec2 startPos(-40, 0);
+	float angle = (float)M_PI / 4.f;
 
-
+	auto plane = new Plane({ 0, 1 }, 2);
+	auto rSphere = new Sphere(startPos, glm::vec2(speed * 2, speed / 2), angle, 10.f, 2.f, glm::vec4(1, 0, 0.5, 1));
+	m_physicsScene->addActor(rSphere);
+	m_physicsScene->addActor(new Sphere(startPos, glm::vec2(speed / 5, speed), angle, 1, radius, glm::vec4(1, 0, 0, 1)));
 	return true;
 }
 
@@ -41,6 +53,7 @@ void ProjectilePhysicsApp::shutdown() {
 
 void ProjectilePhysicsApp::update(float deltaTime) {
 
+	aie::Gizmos::clear();
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -75,7 +88,7 @@ void ProjectilePhysicsApp::draw() {
 	m_2dRenderer->end();
 }
 
-void ProjectilePhysicsApp::setupContinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity)
+void ProjectilePhysicsApp::setupContinuousDemo(glm::vec2 startPos, float angle, float speed, float gravity)
 {
 	float t = 0.f;
 	float tStep = 0.05f;
@@ -84,16 +97,14 @@ void ProjectilePhysicsApp::setupContinuousDemo(glm::vec2 startPos, float inclina
 	glm::vec4 colour = glm::vec4(1, 1, 0, 1);
 
 	glm::vec2 pos = startPos;
-
-	while (t <= 5)
-	{
-		//calculate the x, y position of the projectile at time t
-		pos = pos + speed * t;
-
-		//x = x + speed * t;
-		//y = y + speed * t + 0.5 * std::pow(gravity, 2);
 	
-		aie::Gizmos::add2DCircle(glm::vec2(x, y), radius, segments, colour);
+	while (t <= 5)
+	{		
+		//calculate the x, y position of the projectile at time t
+		pos += speed * t;
+		pos.y += speed * t + gravity * std::pow(t, 2);
+		
+		aie::Gizmos::add2DCircle(pos, radius, segments, colour);
 		t += tStep;
 	}
 }
