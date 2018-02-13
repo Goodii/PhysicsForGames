@@ -1,10 +1,9 @@
 #pragma once
 #include "RigidBody.h"
 
-class Plane : PhysicsObject
+class Plane : public PhysicsObject
 {
 public:
-	Plane();
 	Plane(glm::vec2 normal, float distance);
 
 	virtual void fixedUpdate(glm::vec2 gravity, float timeStep) override {}

@@ -7,6 +7,13 @@ class PhysicsObject;
 class PhysicsScene
 {
 public:
+	struct CollisionData
+	{
+		bool wasCollision;
+		glm::vec2 normal;
+		float overlap;
+	};
+
 	PhysicsScene();
 	~PhysicsScene();
 

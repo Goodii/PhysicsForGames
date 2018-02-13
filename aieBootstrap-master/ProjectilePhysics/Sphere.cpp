@@ -9,6 +9,7 @@ Sphere::Sphere(glm::vec2 position, glm::vec2 velocity, float angle,
 {
 	m_radius = radius;
 	m_colour = colour;
+	m_shapeID = SPHERE;
 }
 
 Sphere::~Sphere()

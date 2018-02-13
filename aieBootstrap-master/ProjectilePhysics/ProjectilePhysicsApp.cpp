@@ -7,6 +7,7 @@
 #include <glm/ext.hpp>
 #include "Sphere.h"
 #include "Plane.h"
+#include "PhysicsObject.h"
 #include <imgui.h>
 
 #define M_PI 3.141592654
@@ -30,17 +31,18 @@ bool ProjectilePhysicsApp::startup() {
 	
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->setTimeStep(0.01f);
-	m_physicsScene->setGravity(glm::vec2(0, -100));
+	m_physicsScene->setGravity(glm::vec2(0, 0));
 
 	float radius = 1.f;
 	float speed = 25;
-	glm::vec2 startPos(-40, 0);
+	glm::vec2 startPos(-40, 20);
 	float angle = (float)M_PI / 4.f;
 
 	auto plane = new Plane({ 0, 1 }, 2);
-	auto rSphere = new Sphere(startPos, glm::vec2(speed * 2, speed / 2), angle, 10.f, 2.f, glm::vec4(1, 0, 0.5, 1));
+	auto rSphere = new Sphere(startPos, glm::vec2(0, -15), angle, 20.f, 2.f, glm::vec4(1, 0, 0.5, 1));
 	m_physicsScene->addActor(rSphere);
-	m_physicsScene->addActor(new Sphere(startPos, glm::vec2(speed / 5, speed), angle, 1, radius, glm::vec4(1, 0, 0, 1)));
+	//m_physicsScene->addActor(new Sphere(glm::vec2(-40, -20), glm::vec2(0, 50), angle, 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
+	m_physicsScene->addActor(plane);
 	return true;
 }
 
