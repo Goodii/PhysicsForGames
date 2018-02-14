@@ -31,7 +31,7 @@ bool ProjectilePhysicsApp::startup() {
 	
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->setTimeStep(0.01f);
-	m_physicsScene->setGravity(glm::vec2(0, 0));
+	m_physicsScene->setGravity(glm::vec2(0, -10));
 
 	float radius = 1.f;
 	float speed = 25;
@@ -39,7 +39,7 @@ bool ProjectilePhysicsApp::startup() {
 	float angle = (float)M_PI / 4.f;
 
 	auto plane = new Plane({ 0, 1 }, 2);
-	auto rSphere = new Sphere(startPos, glm::vec2(0, -15), angle, 20.f, 2.f, glm::vec4(1, 0, 0.5, 1));
+	auto rSphere = new Sphere(startPos, glm::vec2(0, 0), angle, 20.f, 2.f, glm::vec4(1, 0, 0.5, 1));
 	m_physicsScene->addActor(rSphere);
 	//m_physicsScene->addActor(new Sphere(glm::vec2(-40, -20), glm::vec2(0, 50), angle, 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
 	m_physicsScene->addActor(plane);

@@ -139,7 +139,7 @@ bool PhysicsScene::plane2sphere(PhysicsObject* object1, PhysicsObject* object2)
 {
 	Plane* plane = dynamic_cast<Plane*>(object1);
 	Sphere* sphere = dynamic_cast<Sphere*>(object2);
-	assert(plane && sphere);
+	assert(sphere && plane);
 
 	glm::vec2 collisionNormal = plane->getNormal();
 	float sphereToPlane = glm::dot(sphere->getPosition(), plane->getNormal()) - plane->getDistance();
