@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Sphere.h"
 #include "Plane.h"
+#include <vector>
 
 PhysicsScene::PhysicsScene() : m_timeStep(0.01f), m_gravity(glm::vec2(0, 0))
 {
@@ -87,7 +88,9 @@ void PhysicsScene::addActor(PhysicsObject* actor)
 
 void PhysicsScene::removeActor(PhysicsObject* actor)
 {
+	
 	std::remove(std::begin(m_actors), std::end(m_actors), actor);
+	
 }
 
 void PhysicsScene::debugScene()
