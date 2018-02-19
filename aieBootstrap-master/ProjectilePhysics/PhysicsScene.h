@@ -21,14 +21,13 @@ public:
 	void removeActor(PhysicsObject* actor);
 	void update(float deltaTime);
 	void updateGizmos();
-
-	void setGravity(const glm::vec2 gravity) { m_gravity = gravity; }
-	glm::vec2 getGravity() const { return m_gravity; }
-
-	void setTimeStep(const float timeStep) { m_timeStep = timeStep; }
-	float getTimeStep() const { return m_timeStep; }
-
 	void debugScene();
+
+	void setGravity(glm::vec2 gravity) { m_gravity = gravity; }
+	glm::vec2 getGravity() { return m_gravity; }
+
+	void setTimeStep(float timeStep) { m_timeStep = timeStep; }
+	float getTimeStep() { return m_timeStep; }
 
 	void checkForCollision();
 	static bool plane2sphere(PhysicsObject*, PhysicsObject*);

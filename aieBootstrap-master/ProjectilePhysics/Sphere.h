@@ -7,7 +7,7 @@ class RigidBody;
 class Sphere : public RigidBody
 {
 public:
-	Sphere(glm::vec2 position, glm::vec2 velocity, float angle, float mass, float radius, glm::vec4 colour);
+	Sphere(glm::vec2 position, glm::vec2 velocity, float mass, float radius, glm::vec4 colour);
 	~Sphere();
 
 	virtual void makeGizmo();

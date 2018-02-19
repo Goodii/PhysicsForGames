@@ -23,8 +23,6 @@ PhysicsScene::~PhysicsScene()
 
 void PhysicsScene::update(float deltaTime)
 {
-	//static std::list<PhysicsObject*> dirty;
-	
 	//update physics at a fixed time step
 	static float accumulatedTime = 0.0f;
 	accumulatedTime += deltaTime;
@@ -37,37 +35,7 @@ void PhysicsScene::update(float deltaTime)
 		}
 		accumulatedTime -= m_timeStep;
 
-		////check for collision
-		//for (auto pActor : m_actors)
-		//{
-		//	for (auto pOther : m_actors)
-		//	{
-		//		if (pActor == pOther)
-		//		{
-		//			continue;
-		//		}
-		//		if (std::find(dirty.begin(), dirty.end(), pActor) != dirty.end() &&
-		//			std::find(dirty.begin(), dirty.end(), pOther) != dirty.end())
-		//		{
-		//			continue;
-		//		}
-		//
-		//		RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
-		//		if (pRigid->checkCollision(pOther) == true)
-		//		{
-		//			pRigid->applyForceToActor(
-		//				dynamic_cast<RigidBody*>(pOther),
-		//				pRigid->getVelocity() * pRigid->getMass());
-		//			dirty.push_back(pRigid);
-		//			dirty.push_back(pOther);					
-		//		}
-		//
-		//		
-		//	}
-		//}
-
 		checkForCollision();
-		//dirty.clear();
 	}
 }
 
@@ -109,7 +77,7 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 
 static fn collisionFunctionArray[] =
 {
-	false,	PhysicsScene::plane2sphere,
+	nullptr,	PhysicsScene::plane2sphere,
 	PhysicsScene::sphere2plane, PhysicsScene::sphere2sphere,
 };
 
@@ -157,8 +125,8 @@ bool PhysicsScene::plane2sphere(PhysicsObject* object1, PhysicsObject* object2)
 	if (intersection > 0)
 	{
 		//set sphere velocity to zero here
-		sphere->applyForce(-sphere->getVelocity());
-
+		sphere->setVelocity(glm::vec2(sphere->getVelocity().x, 0));
+		sphere->applyForce(glm::vec2(0, 10));
 		return true;
 	}
 	return false;
