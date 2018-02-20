@@ -38,13 +38,20 @@ bool ProjectilePhysicsApp::startup() {
 	glm::vec2 startPos(-40, 20);
 	float angle = (float)M_PI / 4.f;
 
-	auto plane = new Plane({ 0, 1 }, -40);
+	auto floor = new Plane({ 0, 1 }, -50);
+	m_physicsScene->addActor(floor);
+	auto roof = new Plane({ 0, 1 }, 50);
+	m_physicsScene->addActor(roof);
+	auto wallRight = new Plane({ 1, 0 }, 80);
+	m_physicsScene->addActor(wallRight);
+	auto wallLeft = new Plane({ 1, 0 }, -80);
+	m_physicsScene->addActor(wallLeft);
+	
 	auto rSphere = new Sphere(startPos, glm::vec2(32, -5), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
 	rSphere->setElasticity(0.5f);
 	m_physicsScene->addActor(rSphere);
 	m_physicsScene->addActor(new Sphere(glm::vec2(40, 10), glm::vec2(-18, 0), 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
-	m_physicsScene->addActor(plane);
-	m_physicsScene->addActor(new Plane(glm::vec2(1, 0), 0));
+
 	return true;
 }
 
