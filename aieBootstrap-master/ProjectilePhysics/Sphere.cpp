@@ -18,6 +18,14 @@ Sphere::~Sphere()
 void Sphere::makeGizmo()
 {
 	aie::Gizmos::add2DCircle(m_position, m_radius, 12, m_colour);
+
+}
+
+void Sphere::drawLine(glm::vec2 originalPosition)
+{
+	aie::Gizmos::add2DLine(originalPosition, m_position, m_colour);
+
+	originalPosition = m_position;
 }
 
 bool Sphere::checkCollision(PhysicsObject* pOther)

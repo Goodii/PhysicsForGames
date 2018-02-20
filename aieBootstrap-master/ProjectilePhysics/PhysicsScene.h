@@ -29,6 +29,8 @@ public:
 	void setTimeStep(float timeStep) { m_timeStep = timeStep; }
 	float getTimeStep() { return m_timeStep; }
 
+	std::vector<PhysicsObject*> getActors() { return m_actors; }
+
 	void checkForCollision();
 	static bool plane2sphere(PhysicsObject*, PhysicsObject*);
 	static bool sphere2plane(PhysicsObject*, PhysicsObject*);

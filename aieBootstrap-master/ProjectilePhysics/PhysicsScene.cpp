@@ -125,8 +125,9 @@ bool PhysicsScene::plane2sphere(PhysicsObject* object1, PhysicsObject* object2)
 	if (intersection > 0)
 	{
 		//set sphere velocity to zero here
-		sphere->setVelocity(glm::vec2(sphere->getVelocity().x, 0));
-		sphere->applyForce(glm::vec2(0, 10));
+		//sphere->setVelocity(glm::vec2(sphere->getVelocity().x, 0));
+		//sphere->applyForce(glm::vec2(0, 10));
+		plane->resolveCollision(sphere);
 		return true;
 	}
 	return false;
@@ -149,7 +150,7 @@ bool PhysicsScene::sphere2sphere(PhysicsObject* object1, PhysicsObject* object2)
 		
 		if (distance < radius)
 		{
-			
+			sphere1->resolveCollision(sphere2);
 
 			return true;
 		}

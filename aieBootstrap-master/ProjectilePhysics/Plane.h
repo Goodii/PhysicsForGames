@@ -14,6 +14,8 @@ public:
 	glm::vec2 getNormal() { return m_normal; }
 	float getDistance() { return m_distanceToOrigin; }
 
+	void resolveCollision(RigidBody* actor2);
+
 protected:
 	glm::vec2 m_normal;
 	float m_distanceToOrigin;
