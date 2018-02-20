@@ -10,7 +10,7 @@ Plane::Plane(glm::vec2 normal, float distance) : PhysicsObject(ShapeType::PLANE)
 void Plane::makeGizmo()
 {
 	float lineSegmentLength = 300;
-	glm::vec2 centre = m_normal * -m_distanceToOrigin;
+	glm::vec2 centre = m_normal * m_distanceToOrigin;
 	
 	glm::vec2 parallel(m_normal.y, -m_normal.x);
 	glm::vec4 colour(1, 1, 1, 1);
