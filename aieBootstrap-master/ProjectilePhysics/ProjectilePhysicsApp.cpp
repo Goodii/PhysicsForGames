@@ -46,7 +46,7 @@ bool ProjectilePhysicsApp::startup() {
 	m_physicsScene->addActor(wallRight);
 	auto wallLeft = new Plane({ 1, 0 }, -80);
 	m_physicsScene->addActor(wallLeft);
-	
+
 	auto rSphere = new Sphere(startPos, glm::vec2(32, -5), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
 	rSphere->setElasticity(0.5f);
 	m_physicsScene->addActor(rSphere);
