@@ -48,7 +48,7 @@ bool ProjectilePhysicsApp::startup() {
 	m_physicsScene->addActor(wallLeft);
 
 	auto rSphere = new Sphere(startPos, glm::vec2(32, -5), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
-	rSphere->setElasticity(0.5f);
+	
 	m_physicsScene->addActor(rSphere);
 	m_physicsScene->addActor(new Sphere(glm::vec2(40, 10), glm::vec2(-18, 0), 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
 
@@ -76,19 +76,19 @@ void ProjectilePhysicsApp::update(float deltaTime) {
 	mouseX /= 15;
 	mouseY /= 15;
 
-	float weight = rand() % 499 + 1;
+	float weight = rand() % 24 + 5;
 
 	//generate random colour
 	glm::vec4 randomRGB = glm::vec4((double)rand() / (RAND_MAX), (double)rand() / (RAND_MAX), (double)rand() / (RAND_MAX), 1.f);
 
 	if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT))
 	{				
-		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(-20, 0), weight, 3.5f, randomRGB));
+		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(-20, 0), weight, 0.35f * weight, randomRGB));
 	}
 
 	if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_RIGHT))
 	{
-		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(20, 0), weight, 3.5f, randomRGB));
+		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(20, 0), weight, 0.35f * weight, randomRGB));
 	}
 
 	// exit the application

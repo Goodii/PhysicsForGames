@@ -37,7 +37,7 @@ protected:
 	float m_mass;
 	float m_rotation;
 	float m_elasticity;
-	glm::vec2 m_angularVelocity;
+	float m_angularVelocity;
 	float m_linearDrag;
 	float m_angularDrag;
 };
