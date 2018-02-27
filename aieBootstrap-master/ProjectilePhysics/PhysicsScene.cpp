@@ -124,9 +124,11 @@ bool PhysicsScene::plane2sphere(PhysicsObject* object1, PhysicsObject* object2)
 	float intersection = sphere->getRadius() - sphereToPlane;
 	if (intersection > 0)
 	{
+		//pushes sphere away from plane to avoid merging
 		glm::vec2 repulsiveForce = glm::vec2(collisionNormal * sphereToPlane);
 		sphere->applyForce(-repulsiveForce);
 
+		//applies force to sphere
 		plane->resolveCollision(sphere);
 		return true;
 	}

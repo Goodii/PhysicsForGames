@@ -48,7 +48,6 @@ bool ProjectilePhysicsApp::startup() {
 	m_physicsScene->addActor(wallLeft);
 
 	auto rSphere = new Sphere(startPos, glm::vec2(32, -5), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
-	
 	m_physicsScene->addActor(rSphere);
 	m_physicsScene->addActor(new Sphere(glm::vec2(40, 10), glm::vec2(-18, 0), 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
 
@@ -83,7 +82,7 @@ void ProjectilePhysicsApp::update(float deltaTime) {
 
 	if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT))
 	{				
-		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(-20, 0), weight, 0.35f * weight, randomRGB));
+		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(-20, 0), 10, 2, randomRGB));
 	}
 
 	if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_RIGHT))

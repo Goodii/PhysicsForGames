@@ -15,6 +15,18 @@ RigidBody::RigidBody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity,
 	m_elasticity = 0.9f;
 }
 
+RigidBody::RigidBody(ShapeType shapeID, glm::vec2 position, glm::vec2 velocity,
+	float rotation, float mass, float elasticity) : PhysicsObject(shapeID)
+{
+	m_position = position;
+	m_velocity = velocity;
+	m_rotation = rotation;
+	m_mass = mass;
+	m_linearDrag = 0.3f;
+	m_angularDrag = 0.3f;
+	m_elasticity = elasticity;
+}
+
 RigidBody::~RigidBody()
 {
 }
@@ -36,7 +48,7 @@ void RigidBody::fixedUpdate(glm::vec2 gravity, float timeStep)
 	m_velocity -= m_velocity * m_linearDrag * timeStep;
 	m_angularVelocity -= m_angularVelocity * m_angularDrag * timeStep;
 	
-	if (m_velocity.length() < MIN_LINEAR_THRESHOLD)
+	if (glm::length(m_velocity) < MIN_LINEAR_THRESHOLD)
 	{
 		m_velocity = glm::vec2(0, 0);
 	}
@@ -46,7 +58,7 @@ void RigidBody::fixedUpdate(glm::vec2 gravity, float timeStep)
 		m_angularVelocity = 0;
 	}
 
-	applyForce(gravity * m_mass * timeStep);
+	applyForce((gravity * m_mass) * timeStep);
 	m_position += m_velocity * timeStep;
 }
 
@@ -55,7 +67,9 @@ void RigidBody::resolveCollision(RigidBody* actor2)
 	glm::vec2 normal = glm::normalize(actor2->getPosition() - m_position);
 	glm::vec2 relativeVelocity = actor2->getVelocity() - m_velocity;
 	
-	float j = glm::dot(-(1 + getElasticity()) * (relativeVelocity), normal) / glm::dot(normal, normal * ((1 / m_mass) + (1 / actor2->getMass())));
+	float elasticity = (m_elasticity + actor2->getElasticity()) / 2.f;
+
+	float j = glm::dot(-(1 + elasticity) * (relativeVelocity), normal) / glm::dot(normal, normal * ((1 / m_mass) + (1 / actor2->getMass())));
 
 	glm::vec2 force = normal * j;
 	
