@@ -33,8 +33,13 @@ public:
 
 	void checkForCollision();
 	static bool plane2sphere(PhysicsObject*, PhysicsObject*);
+	static bool plane2aabb(PhysicsObject*, PhysicsObject*);
 	static bool sphere2plane(PhysicsObject*, PhysicsObject*);
 	static bool sphere2sphere(PhysicsObject*, PhysicsObject*);
+	static bool sphere2aabb(PhysicsObject*, PhysicsObject*);
+	static bool aabb2plane(PhysicsObject*, PhysicsObject*);
+	static bool aabb2sphere(PhysicsObject*, PhysicsObject*);
+	static bool aabb2aabb(PhysicsObject*, PhysicsObject*);
 
 protected:
 	glm::vec2 m_gravity;

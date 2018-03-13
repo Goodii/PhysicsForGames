@@ -8,6 +8,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "PhysicsObject.h"
+#include "Box.h"
 #include <imgui.h>
 
 #define M_PI 3.141592654
@@ -38,7 +39,7 @@ bool ProjectilePhysicsApp::startup() {
 	glm::vec2 startPos(-40, 20);
 	float angle = (float)M_PI / 4.f;
 
-	auto floor = new Plane({ 0, 1 }, -50);
+	auto floor = new Plane({ 0, 1 }, -20);
 	m_physicsScene->addActor(floor);
 	auto roof = new Plane({ 0, 1 }, 50);
 	m_physicsScene->addActor(roof);
@@ -46,6 +47,8 @@ bool ProjectilePhysicsApp::startup() {
 	m_physicsScene->addActor(wallRight);
 	auto wallLeft = new Plane({ 1, 0 }, -80);
 	m_physicsScene->addActor(wallLeft);
+
+	auto box = new Box({ 0, 0 }, { 2, 1 }, 1.f, { 1, 0, 0, 1 });
 
 	auto rSphere = new Sphere(startPos, glm::vec2(32, -5), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
 	m_physicsScene->addActor(rSphere);
@@ -71,23 +74,19 @@ void ProjectilePhysicsApp::update(float deltaTime) {
 	m_physicsScene->update(deltaTime);
 	m_physicsScene->updateGizmos();
 
-	input->getMouseXY(&mouseX, &mouseY);
-	mouseX /= 15;
-	mouseY /= 15;
-
-	float weight = rand() % 24 + 5;
+	float weight = rand() % 14 + 5;
 
 	//generate random colour
 	glm::vec4 randomRGB = glm::vec4((double)rand() / (RAND_MAX), (double)rand() / (RAND_MAX), (double)rand() / (RAND_MAX), 1.f);
 
 	if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_LEFT))
 	{				
-		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(-20, 0), 10, 2, randomRGB));
+		m_physicsScene->addActor(new Sphere(glm::vec2(0, 30), glm::vec2(-20, 0), weight, 0.35 * weight, randomRGB));
 	}
 
 	if (input->wasMouseButtonPressed(aie::INPUT_MOUSE_BUTTON_RIGHT))
 	{
-		m_physicsScene->addActor(new Sphere(glm::vec2(mouseX, mouseY), glm::vec2(20, 0), weight, 0.35f * weight, randomRGB));
+		m_physicsScene->addActor(new Sphere(glm::vec2(0, 30), glm::vec2(20, 0), weight, 0.35f * weight, randomRGB));
 	}
 
 	// exit the application

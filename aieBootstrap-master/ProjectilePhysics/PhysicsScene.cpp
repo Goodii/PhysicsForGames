@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Sphere.h"
 #include "Plane.h"
+#include "Box.h"
 #include <vector>
 
 PhysicsScene::PhysicsScene() : m_timeStep(0.01f), m_gravity(glm::vec2(0, 0))
@@ -77,8 +78,9 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 
 static fn collisionFunctionArray[] =
 {
-	nullptr,	PhysicsScene::plane2sphere,
-	PhysicsScene::sphere2plane, PhysicsScene::sphere2sphere,
+	nullptr,	PhysicsScene::plane2sphere,, PhysicsScene::plane2aabb,
+	PhysicsScene::sphere2plane, PhysicsScene::sphere2sphere, PhysicsScene::sphere2aabb,
+	PhysicsScene::aabb2plane, PhysicsScene::aabb2sphere, PhysicsScene::aabb2aabb,
 };
 
 void PhysicsScene::checkForCollision()
@@ -161,3 +163,41 @@ bool PhysicsScene::sphere2sphere(PhysicsObject* object1, PhysicsObject* object2)
 	return false;
 }
 
+bool PhysicsScene::plane2aabb(PhysicsObject* object1, PhysicsObject* object2)
+{
+	Plane* plane = dynamic_cast<Plane*>(object1);
+	Box* box = dynamic_cast<Box*>(object2);
+	assert(box && plane);
+
+	glm::vec2 collisionNormal = plane->getNormal();
+	float aabbToPlane = glm::dot(box->getPosition(), plane->getNormal() - plane->getDistance());
+
+	if (aabbToPlane < 0)
+	{
+		collisionNormal *= -1;
+		aabbToPlane *= -1;
+	}
+
+	
+	return false;
+}
+
+bool PhysicsScene::sphere2aabb(PhysicsObject* object1, PhysicsObject* object2)
+{
+	return false;
+}
+
+bool PhysicsScene::aabb2plane(PhysicsObject* object1, PhysicsObject* object2)
+{
+	return plane2aabb(object2, object1);
+}
+
+bool PhysicsScene::aabb2sphere(PhysicsObject* object1, PhysicsObject* object2)
+{
+	return false;
+}
+
+bool PhysicsScene::aabb2aabb(PhysicsObject* object1, PhysicsObject* object2)
+{
+	return false;
+}
