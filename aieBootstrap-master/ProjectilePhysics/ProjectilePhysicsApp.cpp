@@ -48,11 +48,11 @@ bool ProjectilePhysicsApp::startup() {
 	auto wallLeft = new Plane({ 1, 0 }, -80);
 	m_physicsScene->addActor(wallLeft);
 
-	auto box = new Box({ 0, 0 }, { 2, 1 }, 1.f, { 1, 0, 0, 1 });
-
-	auto rSphere = new Sphere(startPos, glm::vec2(32, -5), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
+	auto box = new Box({ 0, 30 }, { 5, 5 }, 20.f, { 0, -1 }, { 0, 1, 0, 1 });
+	m_physicsScene->addActor(box);
+	auto rSphere = new Sphere(startPos, glm::vec2(0, 0), 5.f, 3.f, glm::vec4(1, 0, 0.5, 1));
 	m_physicsScene->addActor(rSphere);
-	m_physicsScene->addActor(new Sphere(glm::vec2(40, 10), glm::vec2(-18, 0), 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
+	//m_physicsScene->addActor(new Sphere(glm::vec2(40, 10), glm::vec2(-18, 0), 10.f, 4.f, glm::vec4(1, 0, 0, 1)));
 
 	return true;
 }
@@ -115,25 +115,4 @@ void ProjectilePhysicsApp::draw() {
 
 	// done drawing sprites
 	m_2dRenderer->end();
-}
-
-void ProjectilePhysicsApp::setupContinuousDemo(glm::vec2 startPos, float angle, float speed, float gravity)
-{
-	float t = 0.f;
-	float tStep = 0.05f;
-	float radius = 1.f;
-	int segments = 12;
-	glm::vec4 colour = glm::vec4(1, 1, 0, 1);
-
-	glm::vec2 pos = startPos;
-	
-	while (t <= 5)
-	{		
-		//calculate the x, y position of the projectile at time t
-		pos += speed * t;
-		pos.y += speed * t + gravity * std::pow(t, 2);
-		
-		aie::Gizmos::add2DCircle(pos, radius, segments, colour);
-		t += tStep;
-	}
 }

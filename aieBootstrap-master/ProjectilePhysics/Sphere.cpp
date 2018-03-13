@@ -7,6 +7,8 @@ Sphere::Sphere(glm::vec2 position, glm::vec2 velocity, float mass, float radius,
 {
 	m_radius = radius;
 	m_colour = colour;
+	m_linearDrag = 0.7f;
+	m_angularDrag = 0.7f;
 }
 
 Sphere::Sphere(glm::vec2 position, glm::vec2 velocity, float mass, float radius,
@@ -45,18 +47,4 @@ void Sphere::drawLine(glm::vec2 originalPosition)
 	aie::Gizmos::add2DLine(originalPosition, m_position, m_colour);
 
 	originalPosition = m_position;
-}
-
-bool Sphere::checkCollision(PhysicsObject* pOther)
-{
-	Sphere* other = dynamic_cast<Sphere*>(pOther);	
-	
-	float distance = glm::distance(getPosition(), other->getPosition());
-
-	if (distance < getRadius() + other->getRadius())
-	{
-		return true;
-	}
-
-	return false;
 }

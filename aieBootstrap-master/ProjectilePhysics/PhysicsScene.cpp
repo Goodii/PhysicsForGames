@@ -56,10 +56,8 @@ void PhysicsScene::addActor(PhysicsObject* actor)
 }
 
 void PhysicsScene::removeActor(PhysicsObject* actor)
-{
-	
-	std::remove(std::begin(m_actors), std::end(m_actors), actor);
-	
+{	
+	std::remove(std::begin(m_actors), std::end(m_actors), actor);	
 }
 
 void PhysicsScene::debugScene()
@@ -78,7 +76,7 @@ typedef bool(*fn)(PhysicsObject*, PhysicsObject*);
 
 static fn collisionFunctionArray[] =
 {
-	nullptr,	PhysicsScene::plane2sphere,, PhysicsScene::plane2aabb,
+	nullptr,	PhysicsScene::plane2sphere, PhysicsScene::plane2aabb,
 	PhysicsScene::sphere2plane, PhysicsScene::sphere2sphere, PhysicsScene::sphere2aabb,
 	PhysicsScene::aabb2plane, PhysicsScene::aabb2sphere, PhysicsScene::aabb2aabb,
 };
@@ -171,14 +169,17 @@ bool PhysicsScene::plane2aabb(PhysicsObject* object1, PhysicsObject* object2)
 
 	glm::vec2 collisionNormal = plane->getNormal();
 	float aabbToPlane = glm::dot(box->getPosition(), plane->getNormal() - plane->getDistance());
-
+	
 	if (aabbToPlane < 0)
 	{
 		collisionNormal *= -1;
 		aabbToPlane *= -1;
 	}
 
+	//check intersection between plane and aabb
 	
+	
+
 	return false;
 }
 

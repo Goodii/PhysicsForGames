@@ -16,15 +16,10 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
-	virtual void setupContinuousDemo(glm::vec2 startPos, float inclination, 
-									float speed, float gravity);
 
 protected:
 
 	aie::Renderer2D* m_2dRenderer;
 	aie::Font* m_font;
 	PhysicsScene* m_physicsScene;
-
-	int mouseX;
-	int mouseY;
 };
