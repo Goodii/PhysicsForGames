@@ -200,5 +200,21 @@ bool PhysicsScene::aabb2sphere(PhysicsObject* object1, PhysicsObject* object2)
 
 bool PhysicsScene::aabb2aabb(PhysicsObject* object1, PhysicsObject* object2)
 {
+	Box* box1 = dynamic_cast<Box*>(object1);
+	Box* box2 = dynamic_cast<Box*>(object2);
+	assert(box1 && box2);
+
+	glm::vec2 box1Pos = box1->getPosition();
+	glm::vec2 box2Pos = box2->getPosition();
+
+	if (box1Pos.x < box2Pos.x + box2->getExtents().x &&
+		box1Pos.x + box1->getExtents().x > box2Pos.x &&
+		box1Pos.y < box2Pos.y + box2->getExtents().y &&
+		box1Pos.y + box1->getExtents().y > box2Pos.y)
+	{
+		std::cout << "Box to box collision detected\n";
+		box1->resolveCollision(box2);
+	}
+
 	return false;
 }
