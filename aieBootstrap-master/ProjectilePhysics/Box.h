@@ -13,11 +13,12 @@ public:
 
 	glm::vec2 getExtents() { return m_extents; }
 	void setExtents(glm::vec2 extents);
-	glm::vec2 getMin() { return m_min; }
-	glm::vec2 getMax() { return m_max; }
+	glm::vec2 getMin();
+	glm::vec2 getMax();
 
 protected:
 	glm::vec2 m_extents;
+	glm::vec2 m_halfExtents;
 	glm::vec2 m_min;
 	glm::vec2 m_max;
 	glm::vec4 m_colour;

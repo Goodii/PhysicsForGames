@@ -8,6 +8,10 @@
 #include "Plane.h"
 #include "Box.h"
 #include <vector>
+#include <Gizmos.h>
+
+//delete before submission
+#include <Input.h>
 
 PhysicsScene::PhysicsScene() : m_timeStep(0.01f), m_gravity(glm::vec2(0, 0))
 {
@@ -144,20 +148,20 @@ bool PhysicsScene::sphere2sphere(PhysicsObject* object1, PhysicsObject* object2)
 {
 	Sphere* sphere1 = dynamic_cast<Sphere*>(object1);
 	Sphere* sphere2 = dynamic_cast<Sphere*>(object2);
+	assert(sphere1 && sphere2);
 
-	if (sphere1 != nullptr && sphere2 != nullptr)
+	float distance = glm::distance(sphere1->getPosition(), sphere2->getPosition());
+	float radius = sphere1->getRadius() + sphere2->getRadius();
+
+	glm::vec2 normal = glm::normalize(sphere1->getPosition() - sphere2->getPosition());
+	
+	if (distance < radius)
 	{
-		float distance = glm::distance(sphere1->getPosition(), sphere2->getPosition());
-		float radius = sphere1->getRadius() + sphere2->getRadius();
-		
-		if (distance < radius)
-		{
-			
-			sphere1->resolveCollision(sphere2);
+		sphere1->resolveCollision(sphere2);
 
-			return true;
-		}
+		return true;
 	}
+	
 	return false;
 }
 
@@ -169,6 +173,9 @@ bool PhysicsScene::plane2aabb(PhysicsObject* object1, PhysicsObject* object2)
 
 	glm::vec2 collisionNormal = plane->getNormal();
 	float aabbToPlane = glm::dot(box->getPosition(), plane->getNormal() - plane->getDistance());
+
+	float r = box->getExtents().x * abs(plane->getNormal().x) + box->getExtents().y * abs(plane->getNormal().y);
+	float s = glm::dot(plane->getNormal(), box->getPosition()) - plane->getDistance();
 	
 	if (aabbToPlane < 0)
 	{
@@ -177,15 +184,22 @@ bool PhysicsScene::plane2aabb(PhysicsObject* object1, PhysicsObject* object2)
 	}
 
 	//check intersection between plane and aabb
+	glm::vec2 intersection = glm::vec2(box->getExtents().x - aabbToPlane, box->getExtents().y - aabbToPlane);
 	
-	
+	if (abs(s) <= r)
+	{
+		glm::vec2 repulsiveForce = glm::vec2(collisionNormal * abs(s));
+		box->applyForce(-repulsiveForce);
+		plane->resolveCollision(box);
+		return true;
+	}
 
 	return false;
 }
 
 bool PhysicsScene::sphere2aabb(PhysicsObject* object1, PhysicsObject* object2)
 {
-	return false;
+	return aabb2sphere(object2, object1);
 }
 
 bool PhysicsScene::aabb2plane(PhysicsObject* object1, PhysicsObject* object2)
@@ -195,6 +209,32 @@ bool PhysicsScene::aabb2plane(PhysicsObject* object1, PhysicsObject* object2)
 
 bool PhysicsScene::aabb2sphere(PhysicsObject* object1, PhysicsObject* object2)
 {
+	Box* box = dynamic_cast<Box*>(object1);
+	Sphere* sphere = dynamic_cast<Sphere*>(object2);
+	assert(box && sphere);
+	
+	//clamp
+	glm::vec2 clamped = glm::clamp(sphere->getPosition(), box->getMin(), box->getMax());
+	//get vecbetween (position - clamp position)
+	glm::vec2 vecBetween = sphere->getPosition() - clamped;
+
+	aie::Gizmos::add2DCircle(clamped, 0.5f, 12, { 1, 0, 0, 1 });
+
+	float distanceSquared = glm::length(vecBetween * vecBetween);
+	float radiusSquared = sphere->getRadius() * sphere->getRadius();
+
+	//get normal
+	if (clamped.x != 0 && clamped.y != 0)
+	{
+		glm::vec2 normal = glm::normalize(sphere->getPosition() - clamped);
+		//resolve collision
+		if (distanceSquared < radiusSquared)
+		{
+			box->resolveCollision(sphere, normal);
+			std::cout << "AABB vs Sphere collision detected\n";
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -204,16 +244,13 @@ bool PhysicsScene::aabb2aabb(PhysicsObject* object1, PhysicsObject* object2)
 	Box* box2 = dynamic_cast<Box*>(object2);
 	assert(box1 && box2);
 
-	glm::vec2 box1Pos = box1->getPosition();
-	glm::vec2 box2Pos = box2->getPosition();
-
-	if (box1Pos.x < box2Pos.x + box2->getExtents().x &&
-		box1Pos.x + box1->getExtents().x > box2Pos.x &&
-		box1Pos.y < box2Pos.y + box2->getExtents().y &&
-		box1Pos.y + box1->getExtents().y > box2Pos.y)
+	if ((box1->getMin().x <= box2->getMax().x && box1->getMax().x >= box2->getMin().x) &&
+		(box1->getMin().y <= box2->getMax().y && box1->getMax().y >= box2->getMin().y))
 	{
-		std::cout << "Box to box collision detected\n";
-		box1->resolveCollision(box2);
+		box2->resolveCollision(box1);
+		std::cout << "Box vs Box collision detected\n";
+
+		return true;
 	}
 
 	return false;
