@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "PhysicsScene.h"
+#include "Box.h"
 
 class ProjectilePhysicsApp : public aie::Application {
 public:
@@ -19,6 +20,7 @@ public:
 
 protected:
 
+	Box* box;
 	aie::Renderer2D* m_2dRenderer;
 	aie::Font* m_font;
 	PhysicsScene* m_physicsScene;

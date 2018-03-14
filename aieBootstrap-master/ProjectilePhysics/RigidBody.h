@@ -19,8 +19,10 @@ public:
 	void applyForceToActor(RigidBody* actor2, glm::vec2 force);
 
 	void resolveCollision(RigidBody* actor2);
+	void resolveCollision(RigidBody* actor2, glm::vec2 normal);
 
 	glm::vec2 getPosition() { return m_position; }
+	void setPosition(glm::vec2 position) { m_position = position; }
 	float getRotation() { return m_rotation; }
 	glm::vec2 getVelocity() { return m_velocity; }
 	void setVelocity(glm::vec2 newVelocity) { m_velocity = newVelocity; }
