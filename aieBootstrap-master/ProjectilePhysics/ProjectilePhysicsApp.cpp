@@ -52,7 +52,7 @@ bool ProjectilePhysicsApp::startup() {
 	box = new Box({ 0, -30 }, { 10, 10 }, 10.f, { 0, 40 }, { 0, 1, 0, 1 });
 	m_physicsScene->addActor(box);
 	auto box2 = new Box({ 0, 0 }, { 5, 10 }, 20.f, { 0, 15 }, { 0, 1, 0, 1 });
-	//m_physicsScene->addActor(box2);
+	m_physicsScene->addActor(box2);
 	auto rSphere = new Sphere({ 0, 0 }, glm::vec2(0, -15), 10.f, 5.f, glm::vec4(1, 0, 0.5, 1));
 	//m_physicsScene->addActor(rSphere);
 
